@@ -16,11 +16,13 @@ const args = require('minimist')(process.argv.slice(2), {
   string: [
     'account-id',
     'bucket-name',
+    'stack-name',
     'function-name',
     'region'
   ],
   default: {
     region: 'us-east-1',
+    'stack-name': 'AwsServerlessExpressStack',
     'function-name': 'AwsServerlessExpressFunction'
   }
 })
@@ -31,6 +33,7 @@ if (minimistHasBeenInstalled) {
 
 const accountId = args['account-id']
 const bucketName = args['bucket-name']
+const stackName = args['stack-name']
 const functionName = args['function-name']
 const region = args.region
 
@@ -53,6 +56,9 @@ modifyFiles(['./simple-proxy-api.yaml', './package.json', './cloudformation.yaml
 }, {
   regexp: /YOUR_UNIQUE_BUCKET_NAME/g,
   replacement: bucketName
+}, {
+  regexp: /YOUR_SERVERLESS_EXPRESS_STACK_NAME/g,
+  replacement: stackName
 }, {
   regexp: /YOUR_SERVERLESS_EXPRESS_LAMBDA_FUNCTION_NAME/g,
   replacement: functionName
